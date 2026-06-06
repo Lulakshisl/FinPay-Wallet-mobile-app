@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../transactions/screens/send_payment_screen.dart';
 
 class WalletScreen extends StatelessWidget {
   const WalletScreen({super.key});
@@ -13,7 +14,7 @@ class WalletScreen extends StatelessWidget {
             children: [
               _buildHeader(),
               _buildBalanceCard(),
-              _buildQuickActions(),
+              _buildQuickActions(context),
               _buildTransactionList(),
             ],
           ),
@@ -55,7 +56,8 @@ class WalletScreen extends StatelessWidget {
                 backgroundColor: Colors.white.withOpacity(0.3),
                 child: const Text('L',
                     style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold)),
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold)),
               ),
             ],
           ),
@@ -129,8 +131,8 @@ class WalletScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(label,
-                style:
-                    const TextStyle(color: Colors.white70, fontSize: 12)),
+                style: const TextStyle(
+                    color: Colors.white70, fontSize: 12)),
             Text(amount,
                 style: const TextStyle(
                     color: Colors.white,
@@ -142,37 +144,50 @@ class WalletScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildQuickActions() {
+  Widget _buildQuickActions(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _buildAction(Icons.send, 'Send'),
-          _buildAction(Icons.download, 'Receive'),
-          _buildAction(Icons.swap_horiz, 'Transfer'),
-          _buildAction(Icons.more_horiz, 'More'),
+          _buildAction(context, Icons.send, 'Send'),
+          _buildAction(context, Icons.download, 'Receive'),
+          _buildAction(context, Icons.swap_horiz, 'Transfer'),
+          _buildAction(context, Icons.more_horiz, 'More'),
         ],
       ),
     );
   }
 
-  Widget _buildAction(IconData icon, String label) {
-    return Column(
-      children: [
-        Container(
-          width: 56,
-          height: 56,
-          decoration: BoxDecoration(
-            color: const Color(0xFF6C63FF).withOpacity(0.1),
-            borderRadius: BorderRadius.circular(16),
+  Widget _buildAction(BuildContext context, IconData icon, String label) {
+    return GestureDetector(
+      onTap: () {
+        if (label == 'Send') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const SendPaymentScreen(),
+            ),
+          );
+        }
+      },
+      child: Column(
+        children: [
+          Container(
+            width: 56,
+            height: 56,
+            decoration: BoxDecoration(
+              color: const Color(0xFF6C63FF).withOpacity(0.1),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Icon(icon, color: const Color(0xFF6C63FF)),
           ),
-          child: Icon(icon, color: const Color(0xFF6C63FF)),
-        ),
-        const SizedBox(height: 6),
-        Text(label,
-            style: const TextStyle(fontSize: 12, color: Colors.black54)),
-      ],
+          const SizedBox(height: 6),
+          Text(label,
+              style:
+                  const TextStyle(fontSize: 12, color: Colors.black54)),
+        ],
+      ),
     );
   }
 
