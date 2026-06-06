@@ -6,10 +6,10 @@ A new Flutter project.
 
 This project is a starting point for a Flutter application.
 
-Language : Dart |
-Framework : Flutter |
-Made by : Google |
-One code → runs on : Android, iOS, Web, Windows
+| Language : Dart  |
+  Framework : Flutter |
+  Made by : Google  |
+  One code → runs on : Android, iOS, Web, Windows |
 
 A few resources to get you started if this is your first Flutter project:
 
