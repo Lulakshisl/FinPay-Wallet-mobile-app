@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../wallet/screens/wallet_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -222,6 +223,12 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() => _isLoading = true);
     Future.delayed(const Duration(seconds: 2), () {
       setState(() => _isLoading = false);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const WalletScreen(),
+        ),
+      );
     });
   }
 
@@ -229,6 +236,6 @@ class _LoginScreenState extends State<LoginScreen> {
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
-    super.dispose();q
+    super.dispose();
   }
 }

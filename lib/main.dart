@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'features/wallet/screens/wallet_screen.dart';
-
+import 'features/auth/screens/login_screen.dart';
 void main() {
   runApp(const FinPayApp());
 }
@@ -19,7 +19,7 @@ class FinPayApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const WalletScreen(),
+      home: const LoginScreen(),
     );
   }
 }
