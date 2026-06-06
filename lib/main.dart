@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'features/auth/screens/login_screen.dart';
+import 'features/wallet/screens/wallet_screen.dart';
 
 void main() {
   runApp(const FinPayApp());
 }
-
 
 class FinPayApp extends StatelessWidget {
   const FinPayApp({super.key});
@@ -21,7 +19,7 @@ class FinPayApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const LoginScreen(),
+      home: const WalletScreen(),
     );
   }
 }
