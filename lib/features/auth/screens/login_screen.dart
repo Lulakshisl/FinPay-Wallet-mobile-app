@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../wallet/screens/wallet_screen.dart';
+import 'signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -197,7 +198,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           const Text("Don't have an account? ",
                               style: TextStyle(color: Colors.grey)),
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const SignUpScreen(),
+                                ),
+                              );
+                            },
                             child: const Text(
                               'Sign Up',
                               style: TextStyle(
@@ -264,7 +272,6 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     });
   }
-  
 
   @override
   void dispose() {
