@@ -18,6 +18,69 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
 
+  void _showForgotPassword(BuildContext context) {
+    final resetController = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20)),
+        title: const Text('Reset Password'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text(
+              'Enter your email address and we will send you a reset link.',
+              style: TextStyle(color: Colors.grey, fontSize: 13),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: resetController,
+              keyboardType: TextInputType.emailAddress,
+              decoration: InputDecoration(
+                labelText: 'Email Address',
+                prefixIcon: const Icon(Icons.email_outlined,
+                    color: Color(0xFF6C63FF)),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12)),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(
+                      color: Color(0xFF6C63FF), width: 2),
+                ),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel',
+                style: TextStyle(color: Colors.grey)),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Reset link sent to your email!'),
+                  backgroundColor: Colors.green,
+                ),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF6C63FF),
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
+            ),
+            child: const Text('Send Reset Link'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -52,6 +115,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 40),
+
+                    // Logo & Title
                     Center(
                       child: Column(
                         children: [
@@ -76,11 +141,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                   color: Colors.white)),
                           const Text('Sign in to continue',
                               style: TextStyle(
-                                  fontSize: 14, color: Colors.white70)),
+                                  fontSize: 14,
+                                  color: Colors.white70)),
                         ],
                       ),
                     ),
+
                     const SizedBox(height: 48),
+
+                    // Card
                     Container(
                       padding: const EdgeInsets.all(24),
                       decoration: BoxDecoration(
@@ -106,17 +175,22 @@ class _LoginScreenState extends State<LoginScreen> {
                           const Text(
                               'Enter your credentials to access your account',
                               style: TextStyle(
-                                  fontSize: 13, color: Colors.grey)),
+                                  fontSize: 13,
+                                  color: Colors.grey)),
                           const SizedBox(height: 24),
+
+                          // Email field
                           TextField(
                             controller: _emailController,
                             keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
                               labelText: 'Email Address',
-                              prefixIcon: const Icon(Icons.email_outlined,
+                              prefixIcon: const Icon(
+                                  Icons.email_outlined,
                                   color: Color(0xFF6C63FF)),
                               border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12)),
+                                  borderRadius:
+                                      BorderRadius.circular(12)),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
                                 borderSide: const BorderSide(
@@ -125,12 +199,18 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           const SizedBox(height: 16),
+
+                          // Password field — allows ALL characters
                           TextField(
                             controller: _passwordController,
                             obscureText: _obscurePassword,
+                            keyboardType: TextInputType.visiblePassword,
+                            enableSuggestions: false,
+                            autocorrect: false,
                             decoration: InputDecoration(
                               labelText: 'Password',
-                              prefixIcon: const Icon(Icons.lock_outline,
+                              prefixIcon: const Icon(
+                                  Icons.lock_outline,
                                   color: Color(0xFF6C63FF)),
                               suffixIcon: IconButton(
                                 icon: Icon(
@@ -140,10 +220,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                   color: Colors.grey,
                                 ),
                                 onPressed: () => setState(() =>
-                                    _obscurePassword = !_obscurePassword),
+                                    _obscurePassword =
+                                        !_obscurePassword),
                               ),
                               border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12)),
+                                  borderRadius:
+                                      BorderRadius.circular(12)),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
                                 borderSide: const BorderSide(
@@ -152,16 +234,21 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           const SizedBox(height: 8),
+
+                          // Forgot password
                           Align(
                             alignment: Alignment.centerRight,
                             child: TextButton(
-                              onPressed: () {},
+                              onPressed: () =>
+                                  _showForgotPassword(context),
                               child: const Text('Forgot Password?',
-                                  style:
-                                      TextStyle(color: Color(0xFF6C63FF))),
+                                  style: TextStyle(
+                                      color: Color(0xFF6C63FF))),
                             ),
                           ),
                           const SizedBox(height: 8),
+
+                          // Login button
                           SizedBox(
                             width: double.infinity,
                             height: 52,
@@ -171,17 +258,21 @@ class _LoginScreenState extends State<LoginScreen> {
                                   : () {
                                       context.read<AuthBloc>().add(
                                             LoginRequested(
-                                              email: _emailController.text,
+                                              email:
+                                                  _emailController.text,
                                               password:
-                                                  _passwordController.text,
+                                                  _passwordController
+                                                      .text,
                                             ),
                                           );
                                     },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFF6C63FF),
+                                backgroundColor:
+                                    const Color(0xFF6C63FF),
                                 foregroundColor: Colors.white,
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12)),
+                                    borderRadius:
+                                        BorderRadius.circular(12)),
                               ),
                               child: isLoading
                                   ? const CircularProgressIndicator(
@@ -189,16 +280,21 @@ class _LoginScreenState extends State<LoginScreen> {
                                   : const Text('Sign In',
                                       style: TextStyle(
                                           fontSize: 16,
-                                          fontWeight: FontWeight.bold)),
+                                          fontWeight:
+                                              FontWeight.bold)),
                             ),
                           ),
                           const SizedBox(height: 16),
+
+                          // Sign up link
                           Center(
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisAlignment:
+                                  MainAxisAlignment.center,
                               children: [
                                 const Text("Don't have an account? ",
-                                    style: TextStyle(color: Colors.grey)),
+                                    style: TextStyle(
+                                        color: Colors.grey)),
                                 GestureDetector(
                                   onTap: () => Navigator.push(
                                     context,
@@ -209,7 +305,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   child: const Text('Sign Up',
                                       style: TextStyle(
                                           color: Color(0xFF6C63FF),
-                                          fontWeight: FontWeight.bold)),
+                                          fontWeight:
+                                              FontWeight.bold)),
                                 ),
                               ],
                             ),
